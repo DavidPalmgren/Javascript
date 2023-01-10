@@ -1,0 +1,518 @@
+/** @module helpers */
+const myQuestions = [
+    {
+        question: "What is 2+2?",
+        alt0: '4',
+        alt1: '5',
+        alt2: '7',
+        answer: '4'
+    },
+    {
+        question: "What is 4+2?",
+        alt0: '4',
+        alt1: '6',
+        alt2: '71',
+        answer: '6'
+    },
+    {
+        question: "What is 7*5?",
+        alt0: '41',
+        alt1: '35',
+        alt2: '70',
+        answer: '35'
+    },
+    {
+        question: "What is 2*8?",
+        alt0: '15',
+        alt1: '16',
+        alt2: '17',
+        answer: '16'
+    },
+    {
+        question: "What is 55-23?",
+        alt0: '32',
+        alt1: '33',
+        alt2: '34',
+        answer: '32'
+    }
+];
+
+const partIndex = [myQuestions];
+const startBtn1 = document.getElementById("startBtn1");
+const topDisplay = document.getElementById("topDisplay");
+const botDisplay = document.getElementById("botDisplay");
+const midDisplay = document.getElementById("midDisplay");
+let score = 0;
+const questionCount = 5;
+let currentQuestion = 0;
+let currentQuestion2 = 0;
+let currentPart = 0;
+let correct = 0;
+let currentPicture = 0;
+let visualReadingCurrent = 0;
+let guesses = 0;
+function peek () {
+    console.log(myQuestions);
+}
+function randomInt (ceiling) {
+    return Math.floor(Math.random() * ceiling);
+}
+// del 1
+function selected (event) {
+    const allB = document.getElementsByClassName("button");
+    if (event.target.innerHTML === myQuestions[currentQuestion].answer) {
+        event.target.style.backgroundColor = "#70e000";
+        score += 3;
+    } else {
+        event.target.style.backgroundColor = "#bf0603";
+    }
+    for (let i = 0; i < allB.length; i++) {
+        if (allB[i].innerHTML === myQuestions[currentQuestion].answer) {
+            allB[i].style.backgroundColor = "#70e000";
+        }
+    }
+    delay();
+}
+function init (count, questionSet) {
+    const startBtn1 = document.getElementById("startBtn1");
+    if (startBtn1) {
+        startBtn1.remove();
+    }
+    if (currentQuestion < questionCount) {
+        for (let i = 0; i < 3; i++) {
+            const startBtn1 = document.createElement('button');
+            startBtn1.setAttribute("id", 'startBtn' + i);
+            startBtn1.innerHTML = "text";
+            startBtn1.classList.add("button");
+            startBtn1.addEventListener("click", selected);
+            botDisplay.appendChild(startBtn1);
+        }
+
+        topDisplay.innerHTML = questionSet[count].question;
+        for (let i = 0; i < 3; i++) {
+            const temp = document.getElementById(`startBtn${i}`);
+            temp.innerHTML = questionSet[count][`alt${i}`];
+        }
+    } else {
+        currentPart++;
+        topDisplay.innerHTML = "current score is: " + score + "/" + 15;
+        console.log("current score is: " + score + "/" + 15);
+        nextPart();
+    }
+}
+
+function delay () {
+    setTimeout(() => {
+        const temp = document.getElementsByClassName("button");
+        currentQuestion++;
+        if (temp) {
+            for (let i = 0; i < temp.length; i++) {
+                temp[i].remove();
+            }
+        }
+
+        init(currentQuestion, partIndex[currentPart]);
+    }, 500);
+}
+// övrigt
+function delay2 () {
+    setTimeout(() => {
+        const temp = document.querySelectorAll("button");
+        const stuff = temp.length;
+        currentQuestion++;
+        if (temp) {
+            for (let i = 0; i < stuff; i++) {
+                temp[i].remove();
+                console.log(temp[i] + " is removed");
+            }
+        }
+
+        fizzBuzz();
+    }, 500);
+}
+function nextPart () {
+    const topHTML = [
+        "<h2>Fizz Buzz</h2> \n I denna leken så ska du gissa om fizz eller buzz kommer som nästa nummer i sekvensen. Fizz är ett nummer delbart av 3 som t.ex. 3/6/9 och Buzz ett nummer delbart av 5 t.ex. 5/10/15",
+        "<h2>Minne</h2> \n 9 bilder kommer att visas up under 5sekunder försök att komma ihåg så många som du kan och sedan klicka på dem i rätt ordning enligt listan",
+        "<h2>Visuell förmåga och läsförståelse</h2 \n Du kommer att få se 10st olika objekt med olika former/färger följ listan och klicka på dem i rätt ordning, du får 15sekunder!",
+        "<h2>Uppfattningsförmåga</h2> \n Detta testet provar din uppfattningsförmåga genom att visa upp ett objekt under 1sekund och du ska välja att klick på det eller ej, om du klickar rätt får du +1 poäng annars -1, följ dessa instruktionerna när du klickar på objekt: 1. Har en annan färg än röd 2. Har en annan form än kvadrat 3. eller är en röd kvadrat"
+    ];
+    if (currentPart === 0) {
+        console.log("welcome to part1");
+    }
+    if (currentPart === 1) {
+        currentPart++;
+        console.log("welcome to part2");
+        topDisplay.innerHTML = "<h2>Fizz Buzz</h2> \n I denna leken så ska du gissa om fizz eller buzz kommer som nästa nummer i sekvensen. Fizz är ett nummer delbart av 3 som t.ex. 3/6/9 och Buzz ett nummer delbart av 5 t.ex. 5/10/15";
+        const startBtn1 = document.createElement("button");
+        startBtn1.setAttribute("id", 'startBtn2');
+        startBtn1.innerHTML = "start";
+        startBtn1.classList.add("button");
+        startBtn1.addEventListener("click", function () {
+            // start fizzbuzz
+            startBtn1.remove();
+            fizzBuzz();
+        });
+        botDisplay.appendChild(startBtn1);
+        console.log(startBtn1);
+    }
+    if (currentPart === 2) {
+
+    }
+}
+// FizzBuzz del 2
+function fizzBuzz () {
+    const startBtn1 = document.getElementById("startBtn1");
+    const temp = document.getElementsByClassName("button");
+    const stuff = temp.length;
+    currentQuestion++;
+    if (startBtn1) {
+        startBtn1.remove();
+    }
+    if (temp) {
+        for (let i = 0; i < stuff; i++) {
+            temp[i].remove();
+            console.log(temp[i] + " is removed");
+        }
+    }
+    const startingPoint = randomInt(99);
+    topDisplay.innerHTML = "";
+    if (currentQuestion2 < questionCount) {
+        currentQuestion2++; // top text display
+        for (let i = startingPoint; i <= startingPoint + 3; i++) {
+            if (i % 15 === 0) {
+                topDisplay.innerHTML += "FizzBuzz ";
+            } else if (i % 3 === 0) {
+                topDisplay.innerHTML += "Fizz ";
+            } else if (i % 5 === 0) {
+                topDisplay.innerHTML += "Buzz ";
+            } else {
+                topDisplay.innerHTML += i + " ";
+            }
+        }
+        correct = startingPoint + 4;
+        if (correct % 15 === 0) {
+            correct = "FizzBuzz";
+        } else if (correct % 5 === 0) {
+            correct = "Buzz";
+        } else if (correct % 3 === 0) {
+            correct = "Fizz";
+        } else {
+            correct = startingPoint + 4;
+        }
+        console.log("correct is: " + correct);
+        const stuff = startingPoint + 4;
+        makeFizzBuzzButtons(stuff);
+    } else {
+        console.log("end of fizzbuzz");
+        console.log("your score as of part 2 is :" + score);
+    }
+}
+function makeFizzBuzzButtons (correct) {
+    for (let i = 0; i < 4; i++) {
+        const fizzBuzzButton = document.createElement("button");
+        fizzBuzzButton.classList.add("button");
+        fizzBuzzButton.setAttribute("id", 'startBtn' + i);
+        fizzBuzzButton.addEventListener("click", selectedFizzBuzz);
+        if (i === 0) {
+            fizzBuzzButton.innerHTML = "Fizz";
+            botDisplay.appendChild(fizzBuzzButton);
+        }
+        if (i === 1) {
+            fizzBuzzButton.innerHTML = "Buzz";
+            botDisplay.appendChild(fizzBuzzButton);
+        }
+        if (i === 2) {
+            fizzBuzzButton.innerHTML = "FizzBuzz";
+            botDisplay.appendChild(fizzBuzzButton);
+        }
+        if (i === 3) {
+            fizzBuzzButton.innerHTML = correct.toString();
+            console.log("correct type is :" + typeof correct);
+            botDisplay.appendChild(fizzBuzzButton);
+        } else if (i >= 4) {
+            console.log("too much");
+        }
+    }
+}
+function selectedFizzBuzz (event) {
+    const allC = document.getElementsByClassName("button");
+    console.log("event targets innerHTML is: " + event.target.innerHTML);
+    console.log("event targets type is: " + typeof event.target.innerHTML);
+    for (let i = 0; i < allC.length; i++) {
+        console.log(allC[i]);
+        console.log(correct);
+        if (allC[i].innerHTML === correct.toString()) {
+            allC[i].style.backgroundColor = "#70e000";
+        }
+    }
+    if (event.target.innerHTML === correct.toString()) {
+        console.log("correct you got the green style");
+        event.target.style.backgroundColor = "#70e000";
+        score += 3;
+    } else if (event.target.innerHTML !== correct) {
+        event.target.style.backgroundColor = "#bf0603";
+        console.log("innerhtml is: " + event.target.innerHTML);
+        console.log("WRONG, correct was supposedly :" + correct);
+    }
+    delay2();
+}
+// memory del 3
+function memoryGuess (event) {
+    const temp = document.createElement("div");
+    temp.classList.add("box");
+    midDisplay.appendChild(temp);
+    event.target.innerHTML = pictures[parseInt(event.target.id)];
+    console.log("pict: " + picturesCorrectAnswer[currentPicture] + "event id is: " + parseInt(event.target.id));
+    if (parseInt(event.target.id) === picturesCorrectAnswer[currentPicture]) {
+        console.log("correct");
+        document.getElementsByClassName("box")[0].innerHTML = "&#x2713";
+        score++;
+    } else {
+        console.log("wrong");
+        document.getElementsByClassName("box")[0].innerHTML = "&#10005";
+        document.getElementsByClassName("box")[0].style.backgroundColor = "red";
+    }
+    currentPicture++;
+    if (currentPicture > 8) {
+        topDisplay.innerHTML = "your score is: " + score;
+        endMemory();
+    }
+    setTimeout(() => {
+        event.target.innerHTML = "?";
+        document.getElementsByClassName("box")[0].remove();
+        document.getElementsByClassName("counter")[0].innerHTML = currentPicture + 1;
+    }, 500);
+}
+const pictures = [
+    '<img src="img/äpple.png" alt="pic" width="150" height="150">',
+    '<img src="img/druvor.png" alt="pic" width="150" height="150">',
+    '<img src="img/hamburgare.png" alt="pic" width="150" height="150">',
+    '<img src="img/körsbär.png" alt="pic" width="150" height="150">',
+    '<img src="img/kyckling.png" alt="pic" width="150" height="150">',
+    '<img src="img/ost.png" alt="pic" width="150" height="150">',
+    '<img src="img/päron.png" alt="pic" width="150" height="150">',
+    '<img src="img/vatten.png" alt="pic" width="150" height="150">',
+    '<img src="img/vin.png" alt="pic" width="150" height="150">'
+];
+const picturesCorrectAnswer = [
+    3,
+    1,
+    4,
+    0,
+    5,
+    6,
+    7,
+    8,
+    4
+];
+
+function memory () {
+    const temp = document.createElement("div");
+    temp.classList.add("counter");
+    temp.innerHTML = 1;
+    midDisplay.appendChild(temp);
+    const startBtn1 = document.getElementById("startBtn1");
+    if (startBtn1) {
+        startBtn1.remove();
+    }
+    topDisplay.innerHTML = "1. körsbär \n 2. druvor \n 3. hamburgare \n 4. äpple \n 5. ost \n 6. päron \n 7. vatten \n 8. vin/dryck \n 9. kyckling ";
+    for (let i = 0; i < 9; i++) {
+        console.log(i);
+        const memoryButton = document.createElement("button");
+        memoryButton.classList.add("memoryBtn");
+        memoryButton.style.fontSize = "100px";
+        memoryButton.setAttribute("id", 'memory' + i);
+
+        memoryButton.innerHTML = pictures[i];
+        memoryButton.setAttribute("id", i);
+        botDisplay.appendChild(memoryButton);
+        setTimeout(() => {
+            for (let i = 0; i < 9; i++) {
+                memoryButton.innerHTML = "?";
+                memoryButton.addEventListener("click", memoryGuess);
+            }
+        }, 5000);
+    }
+}
+function endMemory () {
+    const temp = document.querySelectorAll("button");
+    const stuff = temp.length;
+    currentQuestion++;
+    if (temp) {
+        for (let i = 0; i < stuff; i++) {
+            temp[i].remove();
+            console.log(temp[i] + " is removed");
+        }
+    }
+    document.getElementsByClassName("counter")[0].remove();
+    // create next part button here perhaps
+}
+// Visual/reading  del 4
+const shapes = [
+    "circle",
+    "square",
+    "triangle",
+    "circle",
+    "square",
+    "triangle",
+    "circle",
+    "square",
+    "triangle",
+    "circle"
+];
+const colors = [
+    "red",
+    "blue",
+    "green",
+    "blue",
+    "green",
+    "red",
+    "green",
+    "red",
+    "blue",
+    "purple"
+];
+const visualReadingAnswers = [
+    5,
+    3,
+    6,
+    1,
+    4,
+    2,
+    9,
+    0,
+    7,
+    8
+];
+function visualReadingGuess (event) {
+    const temp = document.createElement("div");
+    temp.classList.add("box");
+    botDisplay.appendChild(temp);
+    console.log("shape" + visualReadingAnswers[visualReadingCurrent]);
+    if (event.target.id === "shape" + visualReadingAnswers[visualReadingCurrent]) {
+        document.getElementsByClassName("box")[0].innerHTML = "&#x2713";
+        console.log("correct");
+        score++;
+    } else {
+        document.getElementsByClassName("box")[0].innerHTML = "&#10005";
+        document.getElementsByClassName("box")[0].style.backgroundColor = "red";
+        console.log("wrong");
+    }
+    visualReadingCurrent++;
+    setTimeout(() => {
+        document.getElementsByClassName("box")[0].remove();
+    }, 500);
+    guesses++;
+    if (guesses > 10) {
+        endVisualReading();
+    }
+}
+function endVisualReading () {
+    topDisplay.innerHTML = "your score is: " + score + "/10";
+    const temp = midDisplay.querySelectorAll("div");
+    const stuff = temp.length;
+    currentQuestion++;
+    if (temp) {
+        for (let i = 0; i < stuff; i++) {
+            temp[i].remove();
+            console.log(temp[i] + " is removed");
+        }
+    }
+    // create next part button here perhaps
+}
+
+function visualReading () {
+    topDisplay.innerHTML = "1.röd-triangel, 2.blå-cirkel, 3.grön-cirkel, 4.blå-fyrkant, 5.grön-fyrkant, 6.grön-triangel, 7.lila-cirkel, 8.röd-cirkel, 9.röd-fyrkant, 10.blå-triangel.";
+    const startBtn1 = document.getElementById("startBtn1");
+    if (startBtn1) {
+        startBtn1.remove();
+    }
+    for (let i = 0; i < 10; i++) {
+        const temp = document.createElement("div");
+        temp.classList.add(shapes[i]);
+        temp.classList.add("game");
+        if (shapes[i] === "triangle") {
+            temp.style.borderBottomColor = colors[i];
+        } else {
+            temp.style.backgroundColor = colors[i];
+        }
+        temp.setAttribute("id", 'shape' + i);
+        temp.addEventListener("click", visualReadingGuess);
+        midDisplay.appendChild(temp);
+    }
+    setTimeout(() => {
+        endVisualReading();
+    }, 30000);
+}
+let counter = 0;
+let safetynet = 0;
+function comprehensionGuess (event) {
+    event.target.removeEventListener("click", comprehensionGuess);
+    if (event.target.style.backgroundColor !== "red") {
+        if (!event.target.classList.contains("square")) {
+            if (event.target.style.borderBottomColor !== "red") {
+                console.log("correct");
+                score++;
+            } else if (event.target.style.borderBottomColor === "red") {
+                console.log("wrong");
+                score--;
+            }
+        } else if (event.target.classList.contains("square")) {
+            console.log("wrong");
+            score--;
+        }
+    } else if (event.target.style.backgroundColor === "red") {
+        if (event.target.classList.contains("square")) {
+            console.log("that's a red square correct");
+            score++;
+        } else if (!event.target.classList.contains("square")) {
+            console.log("wrong");
+            score--;
+        }
+    } else {
+        console.log("wrong by end else");
+        score--;
+    }
+    counter++; // move to main later
+}
+function endComprehension () { // gör om så att det visas 10 objekt
+    comprehension();
+    setTimeout(() => {
+        safetynet++;
+        console.log("end");
+        setTimeout(() => {
+            topDisplay.innerHTML = "your score is: " + score;
+        }, 1000);
+    }, 15000);
+}
+// Uppfattningsförmåga del 5
+function comprehension () {
+    if (safetynet === 0) {
+        if (startBtn1) {
+            startBtn1.remove();
+        }
+        const random = randomInt(9);
+        const random2 = randomInt(9);
+        const temp = document.createElement("div");
+        temp.classList.add(shapes[random]);
+        temp.classList.add("game");
+        if (shapes[random] === "triangle") {
+            temp.style.borderBottomColor = colors[random2];
+        } else {
+            temp.style.backgroundColor = colors[random2];
+        }
+        temp.setAttribute("id", 'shape');
+        temp.addEventListener("click", comprehensionGuess);
+        midDisplay.appendChild(temp);
+        setTimeout(() => {
+            midDisplay.removeChild(temp);
+            if (counter < 15) {
+                setTimeout(() => {
+                    comprehension();
+                }, 1000);
+            }
+        }, 1000);
+    }
+}
+export { peek, init, myQuestions, fizzBuzz, memory, visualReading, comprehension, endComprehension };

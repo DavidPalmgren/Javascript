@@ -1,0 +1,154 @@
+async function norway (date) {
+    fetch("https://raw.githubusercontent.com/dbwebb-se/js-v2/master/example/co2-json/norway.json").then(
+        res => {
+            res.json().then(
+                data => {
+                    const data2 = data.data[date];
+
+                    let temp = "";
+                    temp += "<tr>";
+                    temp += "<td>" + " Norway " + "</td>";
+                    temp += "<td id=nyear>" + data2.year + "</td>";
+                    temp += "<td id=nco2>" + data2.co2 + "</td>";
+                    temp += "<td id=nco2grwthp>" + data2.co2_growth_prct + "</td>";
+                    temp += "<td id=nco2grwtha>" + data2.co2_growth_abs + "</td>";
+                    temp += "<td id=nco2percap>" + data2.co2_per_capita + "</td></tr>";
+
+                    document.getElementById("data").innerHTML += temp;
+                    return data2;
+                });
+        });
+}
+
+async function sweden (date) {
+    fetch("https://raw.githubusercontent.com/dbwebb-se/js-v2/master/example/co2-json/sweden.json").then(
+        res => {
+            res.json().then(
+                data => {
+                    const data2 = data.data[date];
+
+                    let temp = "";
+                    temp += "<tr>";
+                    temp += "<td>" + " Sweden " + "</td>";
+                    temp += "<td id=syear>" + data2.year + "</td>";
+                    temp += "<td id=sco2>" + data2.co2 + "</td>";
+                    temp += "<td id=sco2grwthp>" + data2.co2_growth_prct + "</td>";
+                    temp += "<td id=sco2grwtha>" + data2.co2_growth_abs + "</td>";
+                    temp += "<td id=sco2percap>" + data2.co2_per_capita + "</td></tr>";
+
+                    document.getElementById("data").innerHTML += temp;
+                    return data2;
+                });
+        });
+}
+
+async function denmark (date) {
+    fetch("https://raw.githubusercontent.com/dbwebb-se/js-v2/master/example/co2-json/denmark.json").then(
+        res => {
+            res.json().then(
+                data => {
+                    const data2 = data.data[date];
+
+                    let temp = "";
+                    temp += "<tr>";
+                    temp += "<td>" + " Denmark " + "</td>";
+                    temp += "<td id=dyear>" + data2.year + "</td>";
+                    temp += "<td id=dco2>" + data2.co2 + "</td>";
+                    temp += "<td id=dcogrwthp>" + data2.co2_growth_prct + "</td>";
+                    temp += "<td id=dcogrwtha>" + data2.co2_growth_abs + "</td>";
+                    temp += "<td id=dco2percap>" + data2.co2_per_capita + "</td></tr>";
+
+                    document.getElementById("data").innerHTML += temp;
+                    return data2;
+                });
+        });
+}
+
+function selection () {
+    const selectbox = document.getElementById("selectbox");
+    let b = 0;
+    for (let i = 1900; i < 2020; i++) {
+        const option = document.createElement('option');
+        option.text = i;
+        option.value = b;
+        selectbox.add(option);
+        b++;
+    }
+}
+
+async function bigubrainu (date) {
+    const swedenResponse = await fetch('https://raw.githubusercontent.com/dbwebb-se/js-v2/master/example/co2-json/sweden.json');
+    const sweden = await swedenResponse.json();
+    console.log(sweden);
+    const norwayResponse = await fetch('https://raw.githubusercontent.com/dbwebb-se/js-v2/master/example/co2-json/norway.json');
+    const norway = await norwayResponse.json();
+
+    const denmarkResponse = await fetch("https://raw.githubusercontent.com/dbwebb-se/js-v2/master/example/co2-json/denmark.json");
+    const denmark = await denmarkResponse.json();
+}
+// Create y
+
+export { selection, norway, sweden, denmark, bigubrainu };
+
+
+
+async function norway (date) {
+    fetch("https://raw.githubusercontent.com/dbwebb-se/js-v2/master/example/co2-json/norway.json").then(
+        res1 => {
+            res1.json().then(
+                data1 => {
+                    const data2 = data1.data[date];
+
+                    let temp = "";
+                    temp += "<tr>";
+                    temp += "<td>" + " Norway " + "</td>";
+                    temp += "<td id=nyear>" + data2.year + "</td>";
+                    temp += "<td id=nco2>" + data2.co2 + "</td>";
+                    temp += "<td id=nco2grwthp>" + data2.co2_growth_prct + "</td>";
+                    temp += "<td id=nco2grwtha>" + data2.co2_growth_abs + "</td>";
+                    temp += "<td id=nco2percap>" + data2.co2_per_capita + "</td></tr>";
+
+                    document.getElementById("data").innerHTML += temp;
+                    return data2;
+                });
+        });
+    fetch("https://raw.githubusercontent.com/dbwebb-se/js-v2/master/example/co2-json/sweden.json").then(
+        res2 => {
+            res2.json().then(
+                data22 => {
+                    const data3 = data22.data[date];
+
+                    let temp = "";
+                    temp += "<tr>";
+                    temp += "<td>" + " Sweden " + "</td>";
+                    temp += "<td id=syear>" + data3.year + "</td>";
+                    temp += "<td id=sco2>" + data3.co2 + "</td>";
+                    temp += "<td id=sco2grwthp>" + data3.co2_growth_prct + "</td>";
+                    temp += "<td id=sco2grwtha>" + data3.co2_growth_abs + "</td>";
+                    temp += "<td id=sco2percap>" + data3.co2_per_capita + "</td></tr>";
+
+                    document.getElementById("data").innerHTML += temp;
+                    return data3;
+                });
+        });
+    fetch("https://raw.githubusercontent.com/dbwebb-se/js-v2/master/example/co2-json/denmark.json").then(
+        res3 => {
+            res3.json().then(
+                data33 => {
+                    const data4 = data33.data[date];
+
+                    let temp = "";
+                    temp += "<tr>";
+                    temp += "<td>" + " Denmark " + "</td>";
+                    temp += "<td id=dyear>" + data4.year + "</td>";
+                    temp += "<td id=dco2>" + data4.co2 + "</td>";
+                    temp += "<td id=dcogrwthp>" + data4.co2_growth_prct + "</td>";
+                    temp += "<td id=dcogrwtha>" + data4.co2_growth_abs + "</td>";
+                    temp += "<td id=dco2percap>" + data4.co2_per_capita + "</td></tr>";
+
+                    document.getElementById("data").innerHTML += temp;
+
+                    return data4;
+                });
+        });
+}

@@ -1,0 +1,208 @@
+import { hangman } from './hangman.js';
+
+const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+const keyboard = document.getElementsByClassName("keyboard");
+const display = document.getElementsByClassName("display");
+const displayLetter = document.getElementsByClassName('letterDisplay');
+const secretlen = hangman.generateSecret();
+const secret = hangman.peek();
+const parts = hangman.validParts;
+let temp = -1;
+// todo list
+// 1. jsdoc lint run
+// 2. kolla om privata/publik
+// 3. lämna in
+
+console.log(secret);
+// flytta skiten till hangman
+function showLetters (letter) {
+    for (let i = 0; i < secret.length; i++) {
+        console.log("split: " + secret.split('')[0]); // r
+        if (secret.split('')[i].toUpperCase() === letter) {
+            displayLetter[i].innerHTML = secret.split('')[i].toUpperCase();
+        }
+    }
+}
+
+/*
+function temptest () {
+    for (let i = 0; i < secretlen; i++) {
+        if (!document.querySelectorAll("letterDisplay")[i].includes("_")) {
+            console.log("includes _");
+        }
+    }
+}
+*/
+function selector (event) {
+    let temp2 = 0;
+    console.log(event.target.innerHTML); // r
+    event.target.classList.add("selected");
+    event.target.removeEventListener("click", selector);
+    if (secret.toUpperCase().includes(event.target.innerHTML)) {
+        event.target.classList.add("correct");
+        showLetters(event.target.innerHTML);
+        console.log(document.getElementsByClassName("correct").length);
+        for (let i = 0; i < secretlen; i++) {
+            if (!document.querySelectorAll("div.letterDisplay")[i].innerHTML.includes("_")) {
+                temp2++;
+                console.log("temp2: " + temp2);
+                console.log("secretlenght: " + secretlen);
+                if (temp2 === secretlen) {
+                    const removeThese = document.querySelectorAll("div.letter");
+                    console.log(removeThese);
+                    for (let i = 0; i < removeThese.length; i++) {
+                        removeThese[i].remove();
+                    }
+                    const endGame = document.createElement("div");
+                    endGame.className = "endScreen";
+                    endGame.innerHTML = "You've won";
+                    keyboard[0].appendChild(endGame);
+                }
+            }
+        }
+    } else {
+        // draw figure
+        temp++;
+        console.log('wrong');
+        hangman.show(parts[temp]);
+        console.log(temp);
+        if (temp === 8) {
+            const removeThese = document.querySelectorAll("div.letter");
+            console.log(removeThese);
+            for (let i = 0; i < removeThese.length; i++) {
+                removeThese[i].remove();
+            }
+            const endGame = document.createElement("div");
+            endGame.className = "endScreen";
+            endGame.innerHTML = "You Lost";
+            keyboard[0].appendChild(endGame);
+        }
+    }
+}
+// initially hides the hangman
+for (const part of hangman.validParts) {
+    hangman.hide(part);
+}
+// generates keyboard
+for (const letter of alphabet) {
+    const temp = document.createElement("div");
+    temp.className = "letter";
+    temp.innerHTML = letter.toUpperCase();
+    keyboard[0].appendChild(temp);
+    temp.addEventListener("click", selector);
+}
+// generates display
+for (let i = 0; i < secretlen; i++) {
+    const temp = document.createElement("div");
+    temp.className = "letterDisplay";
+    temp.innerHTML = "_";
+    temp.setAttribute('id', i);
+    display[0].appendChild(temp);
+}
+console.log(document.querySelectorAll("div.letterDisplay"));
+
+-------------------------------------------------------------
+
+/**
+* @module hangman
+*/
+
+/**
+* @name hangman
+* @description Base object for hangman
+*/
+let secret = "";
+const wordList = ['Sweden', 'Japan', 'England', 'Wales', 'Canada'];
+const hangman = {
+
+    /**
+    * @type {object}
+    * @name partAsElement
+    * @description All parts as html elements
+    */
+    partAsElement: {
+        hill: document.getElementById('hang_hill'),
+        gallow: document.getElementById('hang_construction'),
+        body: document.getElementById('hang_body'),
+        rightarm: document.getElementById('hang_rightarm'),
+        leftarm: document.getElementById('hang_leftarm'),
+        rightleg: document.getElementById('hang_rightleg'),
+        leftleg: document.getElementById('hang_leftleg'),
+        rope: document.getElementById('hang_rope'),
+        head: document.getElementById('hang_head')
+    },
+
+    generateSecret: function () {
+        secret = wordList[Math.floor(Math.random() * wordList.length)];
+        const wordLen = secret.length;
+        return wordLen;
+    },
+
+    peek: function () {
+        return secret;
+    },
+
+    printWords: function () {
+        console.log(wordList);
+    },
+
+    /**
+    * @type {Array}
+    * @name validParts
+    * @description All valid parts as strings
+    */
+    validParts: [
+        "hill",
+        "gallow",
+        "body",
+        "rightarm",
+        "leftarm",
+        "rightleg",
+        "leftleg",
+        "rope",
+        "head"
+    ],
+
+    /**
+     * @function isValid
+     * @description Check if part a valid part, writes error message to console if the part is invalid.
+     * @param {string} part Name of the part to check.
+     * @returns boolean true if valid part, else false.
+     */
+    isValid: function (part) {
+        if (this.validParts.indexOf(part) === -1) {
+            console.log("The part is not valid: " + part);
+            return false;
+        }
+        console.log("The part is valid: " + part);
+        return true;
+    },
+
+    /**
+     * @function hide
+     * @description Hide a part.
+     * @param {string} part Name of the part to hide.
+     * @returns void.
+     */
+    hide: function (part) {
+        if (this.isValid(part)) {
+            console.log("Hiding part: " + part);
+            this.partAsElement[part].style.display = "none";
+        }
+    },
+
+    /**
+     * @function show
+     * @description Show a part.
+     * @param {string} part Name of the part to show.
+     * @returns void.
+     */
+    show: function (part) {
+        if (this.isValid(part)) {
+            console.log("Showing part: " + part);
+            this.partAsElement[part].style.display = "inline";
+        }
+    }
+};
+
+export { hangman };

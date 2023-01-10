@@ -1,0 +1,62 @@
+/**
+ * @function prettyPrint
+ * @param {string} continent checks what value 'continent' has
+ * @returns {nothing} returns nothing just console.log for visual display
+ * */
+
+ export function prettyPrint (continent) {
+    console.log("--- REPORT ---\n" +
+    "Animals in " + continent + "\n");
+    if (continent === 'africa') {
+        let i = 0;
+        while (i < animals.africanAnimals.length) {
+            console.log("* " + animals.africanAnimals[i]);
+            i++;
+        }
+    }
+    if (continent !== 'africa') {
+        console.log("--- REPORT ---\n" +
+        "Animals in all continents\n"); /* valde att köra copy paste teknik hade nog kunnat gjort det enklare om jag skrev från noll men detta går snabbare just nu */
+        let i1 = 0; /* dot notation */
+        while (i1 < animals.africanAnimals.length) {
+            console.log("* " + animals.africanAnimals[i1]);
+            i1++;
+        }
+        let i2 = 0;
+        while (i2 < animals.americanAnimals.length) {
+            console.log("* " + animals.americanAnimals[i2]);
+            i2++;
+        }
+        let i3 = 0;
+        while (i3 < animals.europeanAnimals.length) {
+            console.log("* " + animals.europeanAnimals[i3]);
+            i3++;
+        }
+    }
+}
+
+
+
+
+
+    if (continent === 'africa') {
+        const index = animals.africanAnimals.indexOf(animal);
+        if (index > -1) { // bara splica om den finns
+            animals.africanAnimals.splice(index, 1); // tar väck bara en
+            return animal + " removed";
+        }
+    }
+    if (continent === 'europe') {
+        const index = animals.europeanAnimals.indexOf(animal);
+        if (index > -1) { 
+            animals.africanAnimals.splice(index, 1);
+            return animal + " removed";
+        }
+    }
+    if (continent === 'america') {
+        const index = animals.americanAnimals.indexOf(animal);
+        if (index > -1) { 
+            animals.africanAnimals.splice(index, 1);
+            return animal + " removed";
+        }
+    }

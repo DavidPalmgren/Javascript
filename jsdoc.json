@@ -1,0 +1,10 @@
+{
+    "source": {
+        "includePattern": ".+\\.m?js(doc|x)?$"
+    },
+    "templates": {
+        "default": {
+            "outputSourceFiles": false
+        }
+    }
+}

@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+body {
+    display: flex;
+}
+
+.square {
+    margin: auto;
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    border: thick solid white; /* vit placeholder border så dem inte flyttar sig på hover */
+}
+
+img {
+    width: 190px;
+    height: 150px;
+    display: inline-block;
+}
+
+button {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+}

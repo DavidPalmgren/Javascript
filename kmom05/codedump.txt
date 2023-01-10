@@ -1,0 +1,81 @@
+<thead>
+                <tr>
+                    <th>Country</th>
+                    <th>Year</th>
+                    <th>CO2</th>
+                    <th>CO2%</th>
+                    <th>CO2 per capita</th>
+                    <th>population</th>
+                </tr>
+            </thead>
+            <tbody id="data">
+                <tr> <!-- swe -->
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                </tr>
+                <tr> <!-- nor -->
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr> <!-- den -->
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+async function norway2 () {
+    fetch("https://raw.githubusercontent.com/dbwebb-se/js-v2/master/example/co2-json/norway.json").then(
+        res => {
+            res.json().then(
+                data => {
+                    const data2 = data.data;
+                    console.log(data2);
+                    if (data2.length > 0) {
+                        let temp = "";
+                        data2.forEach((u) => {
+                            temp += "<tr>";
+                            temp += "<td>" + " Norway " + "</td>";
+                            temp += "<td>" + u.year + "</td>";
+                            temp += "<td>" + u.co2 + "</td>";
+                            temp += "<td>" + u.co2_growth_prct + "</td>";
+                            temp += "<td>" + u.co2_growth_abs + "</td>";
+                            temp += "<td>" + u.co2_per_capita + "</td></tr>";
+                        });
+                        document.getElementById("data").innerHTML = temp;
+                    }
+                });
+        });
+}
+
+async function norway () {
+    fetch("https://raw.githubusercontent.com/dbwebb-se/js-v2/master/example/co2-json/norway.json")
+        .then(res => {
+            return res.json();
+        })
+        .then(data => {
+            console.log(data);
+            data.data.forEach(user => {
+                const markup = `<li>${user.year}</li>`;
+
+                document.querySelector('ul').insertAdjacentHTML('beforeend', markup);
+            });
+            return data;
+        })
+        .catch(error => console.log(error));
+}
+

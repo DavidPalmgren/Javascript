@@ -1,0 +1,58 @@
+min scuffade version av git Kappa
+
+import { hangman } from './hangman.js';
+
+const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+const keyboard = document.getElementsByClassName("keyboard");
+const display = document.getElementsByClassName("display");
+const displayLetter = document.getElementsByClassName('letterDisplay');
+const secret = hangman.generateSecret();
+const test2 = hangman.peek();
+console.log(test2);
+
+function showLetters (letter) {
+    console.log("this letter is: " + letter); // r
+
+    for (let i = 0; i < test2.length; i++) {
+        console.log("split: " + test2.split('')[0]); // r
+        if (test2.split('')[i].toUpperCase() === letter) {
+            displayLetter[i].innerHTML = test2.split('')[i].toUpperCase();
+        }
+    }
+}
+
+function test (event) {
+    console.log(event.target.innerHTML); // r
+    event.target.classList.add("selected"); // är på toggle byt till add när klar
+    event.target.removeEventListener("click", test);
+    if (test2.toUpperCase().includes(event.target.innerHTML)) {
+        console.log('yes');
+        event.target.style.backgroundColor = "green";
+        showLetters(event.target.innerHTML);
+    } else {
+        // draw figure
+        console.log('wrong');
+        hangman.show("hill");
+    }
+}
+// initially hides the hangman
+for (const part of hangman.validParts) {
+    hangman.hide(part);
+}
+// generates keyboard
+for (const letter of alphabet) {
+    const temp = document.createElement("div");
+    temp.className = "letter";
+    temp.innerHTML = letter.toUpperCase();
+    keyboard[0].appendChild(temp);
+    temp.addEventListener("click", test);
+}
+
+console.log(secret);
+// generates display
+for (let i = 0; i < secret; i++) {
+    const temp = document.createElement("div");
+    temp.className = "letterDisplay";
+    temp.setAttribute('id', i);
+    display[0].appendChild(temp);
+}

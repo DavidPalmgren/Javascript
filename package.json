@@ -1,0 +1,26 @@
+{
+  "name": "general",
+  "version": "1.0.0",
+  "description": "Contains all packages used in the course.",
+  "private": true,
+  "scripts": {
+    "linter": "eslint -c .eslintrc.json --ext=mjs,js",
+    "jsdoc": "./node_modules/.bin/jsdoc -c jsdoc.json -d $npm_config_kmom/jsdoc $npm_config_kmom/*",
+    "start": "webpack --watch --env kmom=$npm_config_kmom --config webpack.dev.config.js",
+    "build": "webpack --env kmom=$npm_config_kmom --config webpack.prod.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "eslint": "^7.27.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.1",
+    "jsdoc": "~3.6.11",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0"
+  }
+}

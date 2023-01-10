@@ -1,0 +1,260 @@
+import { speak, print, centerElement, getRandomInRange, getRandomInt } from './helpers.js';
+import { dblclick } from './mouse.js';
+
+const boxElement = document.getElementById('box1');
+const red = 'rgb(255, 0, 0)';
+const orange = 'rgb(255, 165, 0)';
+const yellow = 'rgb(255, 255, 0)';
+const green = 'rgb(0, 128, 0)';
+const blue = 'rgb(0, 0, 255)';
+const indigo = 'rgb(75, 0, 130)';
+const violet = 'rgb(238, 130, 238)';
+
+const palette = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+
+speak("Kenny");
+
+console.log(document.querySelector('selected'));
+
+// print(boxElement);
+centerElement(boxElement);
+
+// resize 2.1
+window.addEventListener("resize", function (event) {
+    centerElement(boxElement);
+});
+// select 2.2
+boxElement.addEventListener("click", function (event) {
+    event.target.classList.toggle("selected");
+    console.log(document.querySelectorAll('selected'));
+});
+// dblclick 2.3
+boxElement.addEventListener("dblclick", function (event) {
+    setTimeout(() => {
+        event.target.remove();
+    }, 2000);
+    dblclick(event);
+});
+
+// keyboard 3.0+
+document.addEventListener("keydown", function (event) {
+    // circle 3.1
+    const selectedShapes = document.getElementsByClassName("selected");
+    if (event.key === 'e') {
+        for (let i = 0; i < selectedShapes.length; i++) {
+            selectedShapes[i].classList.add('circle');
+        }
+    }
+    // enlarge 3.2
+    if (event.key === 'q') {
+        console.log("asd");
+        for (let i = 0; i < selectedShapes.length; i++) {
+            selectedShapes[i].style.width = (selectedShapes[i].offsetWidth + 10) + 'px';
+            selectedShapes[i].style.height = (selectedShapes[i].offsetHeight + 10) + 'px';
+
+            const topValue = window.getComputedStyle(selectedShapes[i]).getPropertyValue('top');
+            const topValue2 = window.getComputedStyle(selectedShapes[i]).getPropertyValue('left');
+            let size = parseInt(topValue, 10);
+            let size2 = parseInt(topValue2, 10);
+            size += -5;
+            size2 += -5;
+            console.log(size);
+
+            selectedShapes[i].style.top = size + 'px';
+            selectedShapes[i].style.left = size2 + 'px';
+        }
+    }
+    // shrink 3.2
+    if (event.key === 'w') {
+        for (let i = 0; i < selectedShapes.length; i++) {
+            selectedShapes[i].style.width = (selectedShapes[i].offsetWidth - 10) + 'px';
+            selectedShapes[i].style.height = (selectedShapes[i].offsetHeight - 10) + 'px';
+
+            const failsafe = window.getComputedStyle(selectedShapes[i]).getPropertyValue('width'); // om den inte kan bli mindre så bryts illusionen att den växer på stället
+            const topValue = window.getComputedStyle(selectedShapes[i]).getPropertyValue('top');
+            const topValue2 = window.getComputedStyle(selectedShapes[i]).getPropertyValue('left');
+            let size = parseInt(topValue, 10);
+            let size2 = parseInt(topValue2, 10);
+            size += 5;
+            size2 += 5;
+            console.log(failsafe); // så jag gjorde en failsafe här nere
+            if (failsafe !== '0px') {
+                selectedShapes[i].style.top = size + 'px';
+                selectedShapes[i].style.left = size2 + 'px';
+            }
+        }
+    }
+    // color wheel 3.3
+    // jag är osäker om meningen var att vi skulle göra detta med en array eller på liknande vis men vi har inte gått igenom att spara saker i filer så jag
+    // -har svårt att förstå hur vi ska utföra det, alltså att updatera listan eller om man kan stanna med timeout tills man klickar på r igen, är osäker och ser ingen lösning.
+    // sättet som vi gjorde på förra kmom verkar orimlig då färgerna ska va uppdelade och inte vara bestämda och i fas¿?
+    if (event.key === 'r') {
+        for (let i = 0; i < selectedShapes.length; i++) {
+            const currentColor = window.getComputedStyle(selectedShapes[i]).backgroundColor;
+            console.log(currentColor);
+            if (currentColor === red) {
+                selectedShapes[i].style.backgroundColor = 'orange';
+            }
+            if (currentColor === orange) {
+                selectedShapes[i].style.backgroundColor = 'yellow';
+            }
+            if (currentColor === yellow) {
+                selectedShapes[i].style.backgroundColor = 'green';
+            }
+            if (currentColor === green) {
+                selectedShapes[i].style.backgroundColor = 'blue';
+            }
+            if (currentColor === blue) {
+                selectedShapes[i].style.backgroundColor = 'indigo';
+            }
+            if (currentColor === indigo) {
+                selectedShapes[i].style.backgroundColor = 'violet';
+            }
+            if (currentColor === violet) {
+                selectedShapes[i].style.backgroundColor = 'red';
+            }
+        }
+    }
+    const allSelected = document.querySelectorAll('div.selected');
+    if (event.key === 't') {
+        // const numBox = document.querySelectorAll('selected').length + 1;
+
+        console.log(allSelected);
+        // helpers
+        for (let i = 0; i < allSelected.length; i++) {
+            const coordinates = getRandomInRange();
+            const newElement = allSelected[i].cloneNode(true);
+            newElement.style.left = `${coordinates[1]}px`;
+            newElement.style.top = `${coordinates[0]}px`;
+            document.body.appendChild(newElement);
+            newElement.addEventListener("click", function (event) {
+                event.target.classList.toggle("selected"); // gör om till funktioner sätt him dem här imorgon
+            });
+            newElement.addEventListener("dblclick", function (event) {
+                setTimeout(() => {
+                    event.target.remove();
+                }, 2000);
+                dblclick(event);
+            });
+        }
+    }
+    if (event.key === 'y') {
+        const allDelete = document.querySelectorAll('div.selected');
+        for (let i = 0; i < allDelete.length; i++) {
+            document.body.removeChild(allDelete[i]);
+        }
+    }
+    if (event.key === 'u') {
+        const allUnselect = document.querySelectorAll('div.selected');
+        for (let i = 0; i < allUnselect.length; i++) {
+            allUnselect[i].classList.toggle("selected");
+        }
+    }
+    if (event.key === 'i') {
+        const selectAll = document.querySelectorAll('div.center');
+        for (let i = 0; i < selectAll.length; i++) {
+            selectAll[i].classList.add('selected');
+        }
+    }
+    if (event.key === 'p') {
+        const randomShape = getRandomInt(2);
+        const randomColor = getRandomInt(8);
+        console.log(randomColor);
+        const color = palette[randomColor];
+        const coordinates = getRandomInRange();
+        const newElement = boxElement.cloneNode(true);
+        if (randomShape === 0) {
+            newElement.classList.add('circle');
+        }
+        newElement.style.backgroundColor = color;
+
+        newElement.style.left = `${coordinates[1]}px`;
+        newElement.style.top = `${coordinates[0]}px`;
+        document.body.appendChild(newElement);
+        newElement.addEventListener("click", function (event) {
+            event.target.classList.toggle("selected");
+        });
+        newElement.addEventListener("dblclick", function (event) {
+            setTimeout(() => {
+                event.target.remove();
+            }, 2000);
+            dblclick(event);
+        });
+    }
+    if (event.key === "ArrowLeft") {
+        const allMove = document.querySelectorAll('div.selected');
+        console.log(allMove);
+        for (let i = 0; i < allMove.length; i++) {
+            const boxLeft = window.getComputedStyle(allMove[i]).getPropertyValue('left');
+            let size = parseInt(boxLeft, 10);
+            size += -10;
+            allMove[i].style.left = size + 'px';
+        }
+    }
+    if (event.key === "ArrowRight") {
+        const allMove = document.querySelectorAll('div.selected');
+        console.log(allMove);
+        for (let i = 0; i < allMove.length; i++) {
+            const boxLeft = window.getComputedStyle(allMove[i]).getPropertyValue('left');
+            let size = parseInt(boxLeft, 10);
+            size += 10;
+            allMove[i].style.left = size + 'px';
+        }
+    }
+    if (event.key === "ArrowUp") {
+        const allMove = document.querySelectorAll('div.selected');
+        console.log(allMove);
+        for (let i = 0; i < allMove.length; i++) {
+            const boxTop = window.getComputedStyle(allMove[i]).getPropertyValue('top');
+            let size = parseInt(boxTop, 10);
+            size += -10;
+            allMove[i].style.top = size + 'px';
+        }
+    }
+    if (event.key === "ArrowDown") {
+        const allMove = document.querySelectorAll('div.selected');
+        console.log(allMove);
+        for (let i = 0; i < allMove.length; i++) {
+            const boxTop = window.getComputedStyle(allMove[i]).getPropertyValue('top');
+            let size = parseInt(boxTop, 10);
+            size += 10;
+            allMove[i].style.top = size + 'px';
+        }
+    }
+    if (event.key === 'f') {
+        const allMove = document.querySelectorAll('div.selected');
+        for (let i = 0; i < allMove.length; i++) {
+            const coordinates = getRandomInRange();
+            allMove[i].classList.add("falling");
+
+            allMove[i].style.left = `${coordinates[1]}px`;
+            allMove[i].style.top = `${coordinates[0]}px`;
+        }
+    }
+});
+
+
+
+/**
+ * generates a random shape color and position for a new element
+ * @function p
+ * @param {classList} boxElement for clone
+ */
+function p (boxElement) {
+    const randomShape = getRandomInt(2);
+    const randomColor = getRandomInt(8);
+    console.log(randomColor);
+    const color = palette[randomColor];
+    const coordinates = getRandomInRange();
+    const newElement = boxElement.cloneNode(true);
+    if (randomShape === 0) {
+        newElement.classList.add('circle');
+    }
+    newElement.style.backgroundColor = color;
+
+    newElement.style.left = `${coordinates[1]}px`;
+    newElement.style.top = `${coordinates[0]}px`;
+    document.body.appendChild(newElement);
+    click(newElement);
+    dblclick(newElement);
+}

@@ -1,0 +1,159 @@
+(function () {
+    'use strict';
+
+    const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+    const persons = [
+        "Nelson Mandela",
+        "John F. Kennedy",
+        "Ifti Nasim",
+        "Malcolm X",
+        "Sojourner Truth",
+        "Eleanor Roosevelt",
+        "Rosa Parks"
+    ];
+    const years = [
+        "1918 - 2013",
+        "1917 - 1963",
+        "1946 - 2011",
+        "1925 - 1965",
+        "1797 - 1883",
+        "1884 - 1962",
+        "1913 - 2005"
+    ];
+    const myBtn = document.getElementById("start");
+    myBtn.style.backgroundColor = 'red';
+    myBtn.innerHTML = '<img src="img/logo.png" />';
+    let i = 0;
+
+    const all = document.getElementsByClassName("circle");
+
+    function addContent (event) {
+        // alert(event.target.id);
+        const image = document.createElement("img");
+        image.src = "img/logo.png";
+        image.className = "img";
+        event.target.appendChild(image);
+        event.target.insertAdjacentText('afterbegin', persons[event.target.id]);
+        event.target.insertAdjacentText('beforeend', years[event.target.id]);
+        event.target.removeEventListener("click", addContent);
+        event.target.removeEventListener("mouseleave");
+        event.target.removeEventListener("mouseenter");
+        // event.target.addEventListener("click", removeContent);
+    }
+
+    myBtn.addEventListener("click", function (event) {
+        myBtn.style.backgroundColor = colors[all.length + 1];
+
+        console.log(all.length);
+        const element = document.createElement("div");
+        element.setAttribute("id", i);
+        element.className = "circle";
+        element.style.backgroundColor = colors[all.length];
+        element.addEventListener("click", addContent);
+        document.body.appendChild(element);
+        // asd
+
+        i++;
+        console.log(i);
+        if (i === 7) {
+            console.log("Oh no");
+            myBtn.style.visibility = "hidden";
+            console.log("Oh no");
+        }
+        element.addEventListener('mouseenter', function (event) {
+            event.target.style.border = "thick solid #0000FF";
+        });
+        element.addEventListener('mouseleave', function (event) {
+            event.target.style.border = null;
+        });
+    });
+
+    console.log(colors);
+    console.log(persons);
+    console.log(years);
+    console.log("Script ready!");
+})();
+
+
+
+
+(function () {
+    'use strict';
+
+    const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+    const persons = [
+        "Nelson Mandela",
+        "John F. Kennedy",
+        "Ifti Nasim",
+        "Malcolm X",
+        "Sojourner Truth",
+        "Eleanor Roosevelt",
+        "Rosa Parks"
+    ];
+    const years = [
+        "1918 - 2013",
+        "1917 - 1963",
+        "1946 - 2011",
+        "1925 - 1965",
+        "1797 - 1883",
+        "1884 - 1962",
+        "1913 - 2005"
+    ];
+    const myBtn = document.getElementById("start");
+    myBtn.style.backgroundColor = 'red';
+    myBtn.innerHTML = '<img src="img/logo.png" />';
+    let i = 0;
+
+    const all = document.getElementsByClassName("circle");
+
+    function addContent (event) {
+        // alert(event.target.id);
+        const image = document.createElement("img");
+        image.src = "img/logo.png";
+        image.className = "img";
+        event.target.style.border = "thick solid black";
+        event.target.appendChild(image);
+        event.target.insertAdjacentText('afterbegin', persons[event.target.id]);
+        event.target.insertAdjacentText('beforeend', years[event.target.id]);
+        event.target.removeEventListener("click", addContent);
+        // event.target.addEventListener("click", removeContent);
+    }
+
+    myBtn.addEventListener("click", function (event) {
+        myBtn.style.backgroundColor = colors[all.length + 1];
+        console.log(all.length);
+        const element = document.createElement("div");
+        element.setAttribute("id", i);
+        element.className = "circle";
+        element.style.backgroundColor = colors[all.length];
+        element.addEventListener("click", addContent);
+        document.body.appendChild(element);
+        // asd
+
+        i++;
+        console.log(i);
+        if (i === 7) {
+            console.log("Oh no");
+            myBtn.style.visibility = "hidden";
+            console.log("Oh no");
+        }
+        element.addEventListener('mouseenter', mEnter);
+        element.addEventListener('mouseleave', mLeave);
+
+        function mEnter (event) {
+            event.target.style.border = "thick solid black";
+            element.addEventListener("click", function (event) {
+                event.target.removeEventListener("mouseenter", mEnter);
+                event.target.removeEventListener("mouseleave", mLeave);
+            });
+        }
+        function mLeave (event) {
+            event.target.style.border = null;
+        }
+    });
+
+    console.log(colors);
+    console.log(persons);
+    console.log(years);
+    console.log("Script ready!");
+})();

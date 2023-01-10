@@ -1,0 +1,261 @@
+    <div id="content" class="content">
+        <div id="topDisplay" class="topDisplay">
+        <h2>Välkommen</h2>
+        <p>Här har vi 5 uppgifter som jag har skapat för att testa din IQ. När du har gjort alla uppgifterna kommer du få en total summa som reflekterar hur bra du gjorde ifrån dig på uppgifterna!</p>
+        </div>
+        <div id="botDisplay" class="botDisplay">
+            <button id="startBtn">Start</button>
+        </div>
+    </div>
+
+            const startBtn1 = document.createElement('button');
+        const startBtn2 = document.createElement('button');
+        const startBtn3 = document.createElement('button');
+        startBtn1.setAttribute("id", 'startBtn2');
+        startBtn2.setAttribute("id", 'startBtn2');
+        startBtn3.setAttribute("id", 'startBtn3');
+        startBtn1.innerHTML = "text";
+        startBtn2.innerHTML = "text";
+        startBtn3.innerHTML = "text";
+        botDisplay.appendChild(startBtn1);
+        botDisplay.appendChild(startBtn2);
+        botDisplay.appendChild(startBtn3);
+
+
+
+
+/** @module helpers */
+
+const myQuestions = {
+    question1: {
+        question: "What is 10/2?",
+        answers: {
+            0: '3',
+            1: '5',
+            2: '7'
+        },
+        answer: '5'
+    },
+    question2: {
+        question: "what is 2+2?",
+        answers: {
+            a: '4',
+            b: '5',
+            c: '7'
+        },
+        answer: '4'
+    },
+    question3: {
+        question: "what is 7+2?",
+        answers: {
+            a: '11',
+            b: '7',
+            c: '9'
+        },
+        answer: '9'
+    }
+};
+
+function peek () {
+    console.log(myQuestions);
+}
+
+
+function start () {
+    const score = 0;
+    const botDisplay = document.getElementById("botDisplay");
+    const topDisplay = document.getElementById("topDisplay");
+    const startBtn1 = document.getElementById("startBtn1");
+    startBtn1.addEventListener("click", function () {
+        for (let i = 0; i < 3; i++) {
+            const startBtn1 = document.createElement('button');
+            startBtn1.setAttribute("id", 'startBtn' + i);
+            startBtn1.innerHTML = "text";
+            botDisplay.appendChild(startBtn1);
+        }
+        startBtn1.remove();
+        topDisplay.innerHTML = myQuestions.question1.question;
+        for (let i = 0; i < 3; i++) {
+            const temp = document.getElementById(`startBtn${i}`);
+            temp.innerHTML = myQuestions.question1.answers[i];
+        }
+        answer();
+    });
+}
+function answer (answer) {
+    if (answer === myQuestions.question1.answer) {
+        console.log("correct");
+    } else {
+        console.log("wrong");
+    }
+}
+export { start, peek };
+
+-----------------
+
+
+/** @module helpers */
+const myQuestions = [
+    {
+        question: "What is 2+2?",
+        alt0: '4',
+        alt1: '5',
+        alt2: '7',
+        answer: '4'
+    },
+    {
+        question: "What is 4+2?",
+        alt0: '4',
+        alt1: '6',
+        alt2: '71',
+        answer: '6'
+    },
+    {
+        question: "What is 7*5?",
+        alt0: '41',
+        alt1: '35',
+        alt2: '70',
+        answer: '35'
+    },
+    {
+        question: "What is 2*8?",
+        alt0: '15',
+        alt1: '16',
+        alt2: '17',
+        answer: '16'
+    },
+    {
+        question: "What is 55-23?",
+        alt0: '32',
+        alt1: '33',
+        alt2: '34',
+        answer: '32'
+    }
+];
+const fizzBuzz = [
+    {
+        question: "1, 2, Fizz, 4, Buzz, ?",
+        alt0: '4',
+        alt1: '5',
+        alt2: '7',
+        answer: '4'
+    },
+    {
+        question: "What is 2+2?",
+        alt0: '4',
+        alt1: '5',
+        alt2: '7',
+        answer: '4'
+    },
+    {
+        question: "What is 2+2?",
+        alt0: '4',
+        alt1: '5',
+        alt2: '7',
+        answer: '4'
+    },
+    {
+        question: "What is 2+2?",
+        alt0: '4',
+        alt1: '5',
+        alt2: '7',
+        answer: '4'
+    },
+    {
+        question: "What is 2+2?",
+        alt0: '4',
+        alt1: '5',
+        alt2: '7',
+        answer: '4'
+    }
+];
+const partIndex = [myQuestions, fizzBuzz];
+const topDisplay = document.getElementById("topDisplay");
+const botDisplay = document.getElementById("botDisplay");
+let score = 0;
+const questionCount = 5;
+let currentQuestion = 0;
+let currentPart = 0;
+function peek () {
+    console.log(myQuestions);
+}
+function selected (event) {
+    console.log("registered");
+    if (event.target.innerHTML === myQuestions[currentQuestion].answer) {
+        console.log("correct");
+        event.target.style.backgroundColor = "#70e000";
+        score += 3;
+    } else {
+        event.target.style.backgroundColor = "#bf0603";
+    }
+    delay();
+}
+function init (count, questionSet) {
+    const startBtn1 = document.getElementById("startBtn1");
+    if (startBtn1) {
+        startBtn1.remove();
+        console.log("if startBtn1 got run");
+    }
+    if (currentQuestion < questionCount) {
+        console.log(currentQuestion);
+        for (let i = 0; i < 3; i++) {
+            console.log(i);
+            const startBtn1 = document.createElement('button');
+            startBtn1.setAttribute("id", 'startBtn' + i);
+            startBtn1.innerHTML = "text";
+            startBtn1.classList.add("button");
+            startBtn1.addEventListener("click", selected);
+            botDisplay.appendChild(startBtn1);
+        }
+
+        topDisplay.innerHTML = questionSet[count].question;
+        for (let i = 0; i < 3; i++) {
+            const temp = document.getElementById(`startBtn${i}`);
+            temp.innerHTML = questionSet[count][`alt${i}`];
+        }
+    } else {
+        currentPart++;
+        topDisplay.innerHTML = "Next part";
+        console.log("next part");
+        console.log("current score is: " + score + "/" + 15);
+        currentQuestion = 0;
+        nextPart();
+    }
+}
+
+function delay () {
+    setTimeout(() => {
+        const temp = document.getElementsByClassName("button");
+        console.log(temp);
+        currentQuestion++;
+        if (temp) {
+            for (let i = 0; i < temp.length; i++) {
+                temp[i].remove();
+                console.log(temp[i] + " is removed");
+            }
+        }
+
+        init(currentQuestion, partIndex[currentPart]);
+    }, "500");
+}
+function nextPart () {
+    if (currentPart === 0) {
+        console.log("welcome to part1");
+    }
+    if (currentPart === 1) {
+        currentPart++;
+        console.log("welcome to part2");
+        topDisplay.innerHTML = "<h2>Fizz Buzz</h2> \n I denna leken så ska du gissa om fizz eller buzz kommer som nästa nummer i sekvensen. Fizz är ett nummer delbart av 3 som t.ex. 3/6/9 och Buzz ett nummer delbart av 5 t.ex. 5/10/15";
+        const startBtn1 = document.createElement("button");
+        startBtn1.setAttribute("id", 'startBtn2');
+        startBtn1.innerHTML = "start";
+        startBtn1.classList.add("button");
+        startBtn1.addEventListener("click", function () {
+            startBtn1.addEventListener("click", init(1, fizzBuzz));
+            startBtn1.remove();
+        });
+        botDisplay.appendChild(startBtn1);
+        console.log(startBtn1);
+    }
+}
+export { peek, init, myQuestions };

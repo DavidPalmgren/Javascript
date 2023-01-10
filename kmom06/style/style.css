@@ -1,0 +1,48 @@
+.letter {
+    font-size: 16px;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    border: solid black;
+    margin: 2px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.letterDisplay {
+    font-size: 16px;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    border: solid black;
+    margin: 2px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.main {
+    max-width: 960px;
+    margin: 0 auto;
+    flex: 1 0 auto;
+    justify-content: center;
+    border: 1px solid black;
+    text-align: center;
+    height: fit-content;
+}
+
+.selected {
+    background-color: red;
+}
+
+.endScreen {
+    font-style: bold;
+    font-size: 50px;
+    height: 200px;
+    line-height: 200px;
+}
+
+.correct {
+    background-color: green;
+}
